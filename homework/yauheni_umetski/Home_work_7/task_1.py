@@ -1,4 +1,4 @@
-from random import  randint
+from random import randint
 
 guess_number: int = randint(1, 10)
 print("Please guess a number between 1 and 10")
