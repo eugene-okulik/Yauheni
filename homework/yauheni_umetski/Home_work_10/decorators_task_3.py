@@ -24,4 +24,5 @@ def calc(first, second, operation):
     elif operation == '/':
         return first / second
 
+
 print(calc(4, 3))
