@@ -2,7 +2,6 @@ class Book:
     material: str = "бумага"
     has_text: bool = True
 
-
     def __init__(self, name: str, author: str, number: int, isbn_number: int,
                  reservation: bool = False):
         self.name = name
@@ -10,7 +9,6 @@ class Book:
         self.number = number
         self.isbn_number = isbn_number
         self.reservation = reservation
-
 
     def book_info(self):
         print(f"Название: {self.name}, Автор: {self.author}, "
@@ -21,7 +19,6 @@ class Book:
 
 class SchoolBook(Book):
 
-
     def __init__(self, name: str, author: str, number: int, isbn_number: int, subject: str,
                  school_class: str, homework: bool = False):
         super().__init__(name, author, number, isbn_number)
@@ -29,13 +26,11 @@ class SchoolBook(Book):
         self.school_class = school_class
         self.homework = homework
 
-
     def book_info(self):
         print(f"Название: {self.name}, Автор: {self.author}, "
               f"страниц: {self.number}, "
               f"предмет: {self.subject}, класс: {self.school_class}"
               f"{', зарезервирована' if self.reservation else ''}")
-
 
 
 python_book = Book("Python", "Python_author", 123, 1234567)
@@ -48,7 +43,6 @@ python_book.reservation = True
 
 for book in [python_book, js_book, java_book, selenium_book, test_book]:
     book.book_info()
-
 
 math = SchoolBook("Math", "Math_author", 123, 3234567, "Math_sbj", "1", True)
 biology = SchoolBook("Biology", "BIOLOGY_author", 1123, 4234567, "Biology_sbj", "2")
