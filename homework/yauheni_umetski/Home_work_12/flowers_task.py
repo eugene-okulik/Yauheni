@@ -9,6 +9,7 @@ FlowerParam = Literal[
     "avg_life_time",
 ]
 
+
 class Flower:
 
     def __init__(self, name: str, price: float):
@@ -79,8 +80,6 @@ class Flower:
         self._length = value
 
 
-
-
 class Rose(Flower):
 
     def __init__(self, price: float):
@@ -88,6 +87,7 @@ class Rose(Flower):
         self.avg_life_time = 7
         self.length = 70
         self.color = ["Red", "White", "Purple"]
+
 
 class Tulip(Flower):
 
@@ -97,6 +97,7 @@ class Tulip(Flower):
         self.length = 40
         self.color = ["Red", "Yellow", "Blue", "Purple"]
 
+
 class Lily(Flower):
 
     def __init__(self, price: float):
@@ -104,6 +105,7 @@ class Lily(Flower):
         self.avg_life_time = 8
         self.length = 39
         self.color = ["Yellow", "Blue", "Purple"]
+
 
 class Bouquet:
 
@@ -120,7 +122,7 @@ class Bouquet:
 
     def avg_life_time(self) -> float:
         self._require_not_empty()
-        total =  sum(flower.avg_life_time for flower in self._flowers)
+        total = sum(flower.avg_life_time for flower in self._flowers)
         return total / len(self._flowers)
 
     def sorted_flowers(self, param: FlowerParam) -> list[Flower]:
@@ -132,6 +134,7 @@ class Bouquet:
         if param == "color":
             return [flower for flower in self._flowers if value in flower.color]
         return [flower for flower in self._flowers if getattr(flower, param) == value]
+
 
 rose = Rose(10.0)
 tulip = Tulip(5.0)
@@ -147,4 +150,3 @@ print(sorted_bouquet)
 print(life)
 print(cost)
 print(find)
-
