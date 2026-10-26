@@ -1,0 +1,24 @@
+select
+	s.id,
+	s.second_name,
+	s.group_id,
+	g.title as group_title,
+	b.title as book_title,
+	m.value,
+	l.title as lesson_title,
+	s2.title as subject_title
+FROM students s
+JOIN `groups` g ON s.group_id = g.id
+JOIN books b ON s.id = b.taken_by_student_id
+JOIN marks m ON s.id  = m.student_id
+JOIN lessons l ON m.lesson_id = l.id
+JOIN subjects s2 ON l.subject_id = s2.id
+where s.second_name = 'Umetski'
+
+|id    |second_name|group_id|group_title       |book_title                  |value|lesson_title               |subject_title            |
+|------|-----------|--------|------------------|----------------------------|-----|---------------------------|-------------------------|
+|23,432|Umetski    |25,152  |Yauheni AQA Python|Python AQA by Okulik. part 1|5    |Yauheni AQA Python lesson 2|Yauheni AQA Python subj 2|
+|23,432|Umetski    |25,152  |Yauheni AQA Python|Python AQA by Okulik. part 2|5    |Yauheni AQA Python lesson 2|Yauheni AQA Python subj 2|
+|23,432|Umetski    |25,152  |Yauheni AQA Python|Python AQA by Okulik. part 1|5    |Yauheni AQA Python lesson 1|Yauheni AQA Python subj 1|
+|23,432|Umetski    |25,152  |Yauheni AQA Python|Python AQA by Okulik. part 2|5    |Yauheni AQA Python lesson 1|Yauheni AQA Python subj 1|
+
