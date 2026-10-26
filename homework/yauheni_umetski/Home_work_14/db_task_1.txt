@@ -1,4 +1,5 @@
-select * from marks m where  m.student_id = (select id from students s where s.name = 'Yauheni' and s.second_name = 'Umetski')
+select * from marks m where  m.student_id = (select id from students s where s.name = 'Yauheni'
+and s.second_name = 'Umetski')
 
 |id    |value|lesson_id|student_id|
 |------|-----|---------|----------|
