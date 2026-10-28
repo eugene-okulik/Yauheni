@@ -10,9 +10,7 @@ select * from lessons l order by id desc limit 2
 2. Insert data
 
 insert into students (name, second_name, group_id) values
- ('Yauheni', 'Umetski',
- (select id from `groups` limit 1)
- )
+ ('Yauheni', 'Umetski', NULL)
 
    insert into `groups` (title, start_date, end_date) values
   ('Yauheni AQA Python', 'September 2026', 'December 2026')
@@ -24,12 +22,24 @@ insert into students (name, second_name, group_id) values
 
   insert INTO lessons (title, subject_id) values
   ('Yauheni AQA Python lesson 1', (select id from subjects s where s.title = 'Yauheni AQA Python subj 1' limit 1)),
-  ('Yauheni AQA Python lesson 2', ((select id from subjects s where s.title = 'Yauheni AQA Python subj 2' limit 1)))
+  ('Yauheni AQA Python lesson 1-1', (select id from subjects s where s.title = 'Yauheni AQA Python subj 1' limit 1)),
+  ('Yauheni AQA Python lesson 2', (select id from subjects s where s.title = 'Yauheni AQA Python subj 2' limit 1)),
+  ('Yauheni AQA Python lesson 2-1', (select id from subjects s where s.title = 'Yauheni AQA Python subj 2' limit 1))
 
   insert into books (title, taken_by_student_id) values
   ('Python AQA by Okulik. part 1', (select id from students s where s.name = 'Yauheni' and s.second_name = 'Umetski' limit 1)),
   ('Python AQA by Okulik. part 2', (select id from students s where s.name = 'Yauheni' and s.second_name = 'Umetski' limit 1))
 
   insert into marks (value, lesson_id, student_id) values
-  (5, 77347, (select id from students s where s.name = 'Yauheni' and s.second_name = 'Umetski')),
-  (5, 77346, (select id from students s where s.name = 'Yauheni' and s.second_name = 'Umetski'))
+  (5,
+  (select id from lessons l where l.title = 'Yauheni AQA Python lesson 1' limit 1),
+  (select id from students s where s.name = 'Yauheni' and s.second_name = 'Umetski')),
+  (5,
+  (select id from lessons l where l.title = 'Yauheni AQA Python lesson 1-1' limit 1),
+  (select id from students s where s.name = 'Yauheni' and s.second_name = 'Umetski')),
+  (5,
+  (select id from lessons l where l.title = 'Yauheni AQA Python lesson 2' limit 1),
+  (select id from students s where s.name = 'Yauheni' and s.second_name = 'Umetski')),
+  (5,
+  (select id from lessons l where l.title = 'Yauheni AQA Python lesson 2-1' limit 1),
+  (select id from students s where s.name = 'Yauheni' and s.second_name = 'Umetski')),
