@@ -1,0 +1,7 @@
+select * from marks m where  m.student_id = (select id from students s where s.name = 'Yauheni'
+and s.second_name = 'Umetski')
+
+|id    |value|lesson_id|student_id|
+|------|-----|---------|----------|
+|77,125|5    |77,347   |23,432    |
+|77,126|5    |77,346   |23,432    |
