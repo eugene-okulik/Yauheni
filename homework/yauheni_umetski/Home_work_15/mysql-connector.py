@@ -1,7 +1,7 @@
 from typing import Any
-import mysql.connector as mysql
 from typing import Literal
 from enum import StrEnum
+import mysql.connector as mysql
 
 
 class StudentsColumns(StrEnum):
@@ -135,11 +135,21 @@ class BaseDatabase:
 
         return self.__db.execute(sql, items)
 
-    def update_one_by_id(self, item_id: int | str, column: str, column_value: Any, id_column: str = "id") -> int | None:
+    def update_one_by_id(
+            self,
+            item_id: int | str,
+            column: str,
+            column_value: Any,
+            id_column: str = "id"
+    ) -> int | None:
         sql = f"UPDATE `{self.__table}` set `{column}` = %s WHERE `{id_column}`= %s"
         return self.__db.execute(sql, (column_value, item_id))
 
-    def get_by_filter(self, item: int | str, filter_column: str = "id") -> dict | None:
+    def get_by_filter(
+            self,
+            item: int | str,
+            filter_column: str = "id"
+    ) -> dict | None:
         sql = f"SELECT * FROM `{self.__table}` WHERE `{filter_column}`= %s"
         return self.__db.fetch_all(sql, (item,))
 
@@ -307,8 +317,14 @@ group_id = groups.insert_one(
 
 students.update_one_by_id(student_id, students.COLUMNS.GROUP_ID, group_id)
 
-subject_id_1 = subjects.insert_one(columns=(subjects.COLUMNS.TITLE, ), items=("Yauheni AQA Python subj 1", ))
-subject_id_2 = subjects.insert_one(columns=(subjects.COLUMNS.TITLE, ), items=("Yauheni AQA Python subj 2", ))
+subject_id_1 = subjects.insert_one(
+    columns=(subjects.COLUMNS.TITLE, ),
+    items=("Yauheni AQA Python subj 1", )
+)
+subject_id_2 = subjects.insert_one(
+    columns=(subjects.COLUMNS.TITLE, ),
+    items=("Yauheni AQA Python subj 2", )
+)
 
 lesson_id_1 = lessons.insert_one(
     columns=(lessons.COLUMNS.TITLE, lessons.COLUMNS.SUBJECT_ID),
