@@ -139,8 +139,7 @@ class BaseDatabase:
     def insert_one(self, columns: tuple[str, ...], items: tuple) -> int | None:
         columns_str = ", ".join(columns)
         placeholders = ", ".join(["%s"] * len(columns))
-        sql = f"INSERT INTO `{
-            self.__table}` ({columns_str}) VALUES ({placeholders})"
+        sql = f"INSERT INTO `{self.__table}` ({columns_str}) VALUES({placeholders})"
 
         return self.__db.execute(sql, items)
 
@@ -151,8 +150,7 @@ class BaseDatabase:
             column_value: Any,
             id_column: str = "id"
     ) -> int | None:
-        sql = f"UPDATE `{
-            self.__table}` set `{column}` = %s WHERE `{id_column}`= %s"
+        sql = f"UPDATE `{self.__table}` set `{column}` = %s WHERE `{id_column}`= %s"
         return self.__db.execute(sql, (column_value, item_id))
 
     def get_by_filter(
