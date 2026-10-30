@@ -33,9 +33,11 @@ GroupsColumnsType = Literal[
     "id"
 ]
 
+
 class SubjectColumns(StrEnum):
     TITLE = "title"
     ID = "id"
+
 
 SubjectColumnsType = Literal[
     "title",
@@ -47,6 +49,7 @@ class LessonsColumns(StrEnum):
     TITLE = "title"
     SUBJECT_ID = "subject_id"
     ID = "id"
+
 
 LessonsColumnsType = Literal[
     "title",
@@ -61,6 +64,7 @@ class MarksColumns(StrEnum):
     STUDENT_ID = "student_id"
     ID = "id"
 
+
 MarksColumnsType = Literal[
     "value",
     "lesson_id",
@@ -68,10 +72,12 @@ MarksColumnsType = Literal[
     "id"
 ]
 
+
 class BooksColumns(StrEnum):
     TITLE = "title"
     ID = "id"
     TAKEN_BY_STUDENT_ID = "taken_by_student_id"
+
 
 BooksColumnsType = Literal[
     "title",
@@ -79,8 +85,10 @@ BooksColumnsType = Literal[
     "taken_by_student_id"
 ]
 
+
 class MySQLConnector:
-    def __init__(self, user: str, password: str, host: str, port: int, database: str):
+    def __init__(self, user: str, password: str,
+                 host: str, port: int, database: str):
         self.__connection = mysql.connect(
             user=user,
             passwd=password,
@@ -131,7 +139,8 @@ class BaseDatabase:
     def insert_one(self, columns: tuple[str, ...], items: tuple) -> int | None:
         columns_str = ", ".join(columns)
         placeholders = ", ".join(["%s"] * len(columns))
-        sql = f"INSERT INTO `{self.__table}` ({columns_str}) VALUES ({placeholders})"
+        sql = f"INSERT INTO `{
+            self.__table}` ({columns_str}) VALUES ({placeholders})"
 
         return self.__db.execute(sql, items)
 
@@ -142,7 +151,8 @@ class BaseDatabase:
             column_value: Any,
             id_column: str = "id"
     ) -> int | None:
-        sql = f"UPDATE `{self.__table}` set `{column}` = %s WHERE `{id_column}`= %s"
+        sql = f"UPDATE `{
+            self.__table}` set `{column}` = %s WHERE `{id_column}`= %s"
         return self.__db.execute(sql, (column_value, item_id))
 
     def get_by_filter(
@@ -157,7 +167,7 @@ class BaseDatabase:
 class StudentsTable(BaseDatabase):
     COLUMNS = StudentsColumns
 
-    def __init__(self, db: MySQLConnector)-> None:
+    def __init__(self, db: MySQLConnector) -> None:
         super().__init__(db, table="students")
 
     def insert_one(
@@ -180,7 +190,7 @@ class StudentsTable(BaseDatabase):
 class GroupsTable(BaseDatabase):
     COLUMNS = GroupsColumns
 
-    def __init__(self, db: MySQLConnector)-> None:
+    def __init__(self, db: MySQLConnector) -> None:
         super().__init__(db, table="groups")
 
     def insert_one(
@@ -203,7 +213,7 @@ class GroupsTable(BaseDatabase):
 class SubjectsTable(BaseDatabase):
     COLUMNS = SubjectColumns
 
-    def __init__(self, db: MySQLConnector)-> None:
+    def __init__(self, db: MySQLConnector) -> None:
         super().__init__(db, table="subjects")
 
     def insert_one(
@@ -226,7 +236,7 @@ class SubjectsTable(BaseDatabase):
 class LessonsTable(BaseDatabase):
     COLUMNS = LessonsColumns
 
-    def __init__(self, db: MySQLConnector)-> None:
+    def __init__(self, db: MySQLConnector) -> None:
         super().__init__(db, table="lessons")
 
     def insert_one(
@@ -249,7 +259,7 @@ class LessonsTable(BaseDatabase):
 class MarksTable(BaseDatabase):
     COLUMNS = MarksColumns
 
-    def __init__(self, db: MySQLConnector)-> None:
+    def __init__(self, db: MySQLConnector) -> None:
         super().__init__(db, table="marks")
 
     def insert_one(
@@ -268,10 +278,11 @@ class MarksTable(BaseDatabase):
     ) -> int | None:
         return super().update_one_by_id(item_id, column, column_value, id_column)
 
+
 class BooksTable(BaseDatabase):
     COLUMNS = BooksColumns
 
-    def __init__(self, db: MySQLConnector)-> None:
+    def __init__(self, db: MySQLConnector) -> None:
         super().__init__(db, table="books")
 
     def insert_one(
@@ -306,9 +317,12 @@ lessons = LessonsTable(db)
 marks = MarksTable(db)
 books = BooksTable(db)
 
-#Insert data
+# Insert data
 
-student_id = students.insert_one(columns=("name", "second_name"), items=("Yauheni", "Umetski"))
+student_id = students.insert_one(
+    columns=(
+        "name", "second_name"), items=(
+            "Yauheni", "Umetski"))
 
 group_id = groups.insert_one(
     columns=("title", "start_date", "end_date"),
@@ -353,25 +367,36 @@ book_id_2 = books.insert_one(
 )
 
 mark_id_1 = marks.insert_one(
-    columns=(marks.COLUMNS.VALUE, marks.COLUMNS.LESSON_ID, marks.COLUMNS.STUDENT_ID),
+    columns=(
+        marks.COLUMNS.VALUE,
+        marks.COLUMNS.LESSON_ID,
+        marks.COLUMNS.STUDENT_ID),
     items=(5, lesson_id_1, student_id)
 )
 mark_id_2 = marks.insert_one(
-    columns=(marks.COLUMNS.VALUE, marks.COLUMNS.LESSON_ID, marks.COLUMNS.STUDENT_ID),
+    columns=(
+        marks.COLUMNS.VALUE,
+        marks.COLUMNS.LESSON_ID,
+        marks.COLUMNS.STUDENT_ID),
     items=(5, lesson_id_2, student_id)
 )
 mark_id_3 = marks.insert_one(
-    columns=(marks.COLUMNS.VALUE, marks.COLUMNS.LESSON_ID, marks.COLUMNS.STUDENT_ID),
+    columns=(
+        marks.COLUMNS.VALUE,
+        marks.COLUMNS.LESSON_ID,
+        marks.COLUMNS.STUDENT_ID),
     items=(5, lesson_id_3, student_id)
 )
 mark_id_4 = marks.insert_one(
-    columns=(marks.COLUMNS.VALUE, marks.COLUMNS.LESSON_ID, marks.COLUMNS.STUDENT_ID),
+    columns=(
+        marks.COLUMNS.VALUE,
+        marks.COLUMNS.LESSON_ID,
+        marks.COLUMNS.STUDENT_ID),
     items=(5, lesson_id_4, student_id)
 )
 
 
-
-#Task 1
+# Task 1
 print("Task 1")
 marks_data_1 = marks.get_by_id(mark_id_1)
 marks_data_2 = marks.get_by_id(mark_id_2)
@@ -379,19 +404,21 @@ marks_data_3 = marks.get_by_id(mark_id_3)
 marks_data_4 = marks.get_by_id(mark_id_4)
 
 marks_filter = marks.get_by_filter(student_id, marks.COLUMNS.STUDENT_ID)
-print(f"Task 1 result: {marks_data_1}, {marks_data_2}, {marks_data_3}, {marks_data_4}")
+print(
+    f"Task 1 result: {marks_data_1}, {marks_data_2}, {marks_data_3}, {marks_data_4}")
 print(f"Task 1 result: {marks_filter}")
 
-#Task 2
+# Task 2
 print("Task 2")
 books_data_1 = books.get_by_id(book_id_1)
 books_data_2 = books.get_by_id(book_id_2)
 
-books_data_filter = books.get_by_filter(student_id, books.COLUMNS.TAKEN_BY_STUDENT_ID)
+books_data_filter = books.get_by_filter(
+    student_id, books.COLUMNS.TAKEN_BY_STUDENT_ID)
 print(f"Task 2 result: {books_data_1}, {books_data_2}")
 print(f"Task 2 result: {books_data_filter}")
 
-#Task 3
+# Task 3
 student_data = students.get_by_id(student_id)
 group_data = groups.get_by_id(group_id)
 subject_data_1 = subjects.get_by_id(subject_id_1)
@@ -400,8 +427,6 @@ lesson_data_1 = lessons.get_by_id(lesson_id_1)
 lesson_data_2 = lessons.get_by_id(lesson_id_2)
 lesson_data_3 = lessons.get_by_id(lesson_id_3)
 lesson_data_4 = lessons.get_by_id(lesson_id_4)
-
-
 
 
 print(f"Task 3 student: {student_data}")
