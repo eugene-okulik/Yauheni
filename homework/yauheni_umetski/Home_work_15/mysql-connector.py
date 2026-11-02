@@ -126,6 +126,14 @@ class MySQLConnector:
         finally:
             cursor.close()
 
+    def execute_many(self, query: str, params: list[tuple] | tuple[tuple, ...]) -> None:
+        cursor = self.__connection.cursor()
+        try:
+            cursor.executemany(query, params)
+            self.__connection.commit()
+        finally:
+            cursor.close()
+
 
 class BaseDatabase:
     def __init__(self, db: MySQLConnector, table: str) -> None:
@@ -160,6 +168,13 @@ class BaseDatabase:
     ) -> dict | None:
         sql = f"SELECT * FROM `{self.__table}` WHERE `{filter_column}`= %s"
         return self.__db.fetch_all(sql, (item,))
+
+    def insert_many(self, columns: tuple[str, ...], items: tuple[tuple, ...]) -> None:
+        columns_str = ", ".join(columns)
+        placeholders = ", ".join(["%s"] * len(columns))
+        sql = f"INSERT INTO `{self.__table}` ({columns_str}) VALUES({placeholders})"
+
+        return self.__db.execute_many(sql, items)
 
 
 class StudentsTable(BaseDatabase):
@@ -355,68 +370,44 @@ lesson_id_4 = lessons.insert_one(
     items=("Yauheni AQA Python lesson 2-1", subject_id_2)
 )
 
-book_id_1 = books.insert_one(
-    columns=(books.COLUMNS.TITLE, books.COLUMNS.TAKEN_BY_STUDENT_ID),
-    items=("Python AQA by Okulik. part 1", student_id)
-)
-book_id_2 = books.insert_one(
-    columns=(books.COLUMNS.TITLE, books.COLUMNS.TAKEN_BY_STUDENT_ID),
-    items=("Python AQA by Okulik. part 2", student_id)
+books.insert_many(
+    columns=(
+        books.COLUMNS.TITLE,
+        books.COLUMNS.TAKEN_BY_STUDENT_ID
+    ),
+    items=(
+        ("Python AQA by Okulik. part 1", student_id),
+        ("Python AQA by Okulik. part 2", student_id)
+    ),
 )
 
-mark_id_1 = marks.insert_one(
-    columns=(
-        marks.COLUMNS.VALUE,
-        marks.COLUMNS.LESSON_ID,
-        marks.COLUMNS.STUDENT_ID),
-    items=(5, lesson_id_1, student_id)
-)
-mark_id_2 = marks.insert_one(
-    columns=(
-        marks.COLUMNS.VALUE,
-        marks.COLUMNS.LESSON_ID,
-        marks.COLUMNS.STUDENT_ID),
-    items=(5, lesson_id_2, student_id)
-)
-mark_id_3 = marks.insert_one(
-    columns=(
-        marks.COLUMNS.VALUE,
-        marks.COLUMNS.LESSON_ID,
-        marks.COLUMNS.STUDENT_ID),
-    items=(5, lesson_id_3, student_id)
-)
-mark_id_4 = marks.insert_one(
-    columns=(
-        marks.COLUMNS.VALUE,
-        marks.COLUMNS.LESSON_ID,
-        marks.COLUMNS.STUDENT_ID),
-    items=(5, lesson_id_4, student_id)
-)
 
+marks.insert_many(
+    columns=(
+        marks.COLUMNS.VALUE,
+        marks.COLUMNS.LESSON_ID,
+        marks.COLUMNS.STUDENT_ID),
+    items=(
+        (5, lesson_id_1, student_id),
+        (5, lesson_id_2, student_id),
+        (5, lesson_id_3, student_id),
+        (5, lesson_id_4, student_id)
+    )
+)
 
 # Task 1
 print("Task 1")
-marks_data_1 = marks.get_by_id(mark_id_1)
-marks_data_2 = marks.get_by_id(mark_id_2)
-marks_data_3 = marks.get_by_id(mark_id_3)
-marks_data_4 = marks.get_by_id(mark_id_4)
-
 marks_filter = marks.get_by_filter(student_id, marks.COLUMNS.STUDENT_ID)
-print(
-    f"Task 1 result: {marks_data_1}, {marks_data_2}, {marks_data_3}, {marks_data_4}")
 print(f"Task 1 result: {marks_filter}")
 
 # Task 2
 print("Task 2")
-books_data_1 = books.get_by_id(book_id_1)
-books_data_2 = books.get_by_id(book_id_2)
-
 books_data_filter = books.get_by_filter(
     student_id, books.COLUMNS.TAKEN_BY_STUDENT_ID)
-print(f"Task 2 result: {books_data_1}, {books_data_2}")
 print(f"Task 2 result: {books_data_filter}")
 
 # Task 3
+print("Task 3")
 student_data = students.get_by_id(student_id)
 group_data = groups.get_by_id(group_id)
 subject_data_1 = subjects.get_by_id(subject_id_1)
