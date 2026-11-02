@@ -1,13 +1,13 @@
 import os
 from csv_reader import CsvReader
-from homework.yauheni_umetski.Home_work_16.db_connection import MySQLConnector
-from homework.yauheni_umetski.Home_work_16.db_config import DB_CONFIG
-from homework.yauheni_umetski.Home_work_16.students_db import StudentsTable
-from homework.yauheni_umetski.Home_work_16.groups_db import GroupsTable
-from homework.yauheni_umetski.Home_work_16.books_db import BooksTable
-from homework.yauheni_umetski.Home_work_16.subject_db import SubjectsTable
-from homework.yauheni_umetski.Home_work_16.lessons_db import LessonsTable
-from homework.yauheni_umetski.Home_work_16.marks_db import MarksTable
+from db_connection import MySQLConnector
+from db_config import DB_CONFIG
+from students_db import StudentsTable
+from groups_db import GroupsTable
+from books_db import BooksTable
+from subject_db import SubjectsTable
+from lessons_db import LessonsTable
+from marks_db import MarksTable
 
 
 CURR_DIR = os.path.dirname(__file__)

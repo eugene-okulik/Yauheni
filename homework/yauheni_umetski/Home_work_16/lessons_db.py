@@ -1,8 +1,8 @@
 from typing import Any
 from typing import Literal
 from enum import StrEnum
-from homework.yauheni_umetski.Home_work_16.base_db import BaseDatabase
-from homework.yauheni_umetski.Home_work_16.db_connection import MySQLConnector
+from base_db import BaseDatabase
+from db_connection import MySQLConnector
 
 
 class LessonsColumns(StrEnum):
